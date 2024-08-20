@@ -17,8 +17,8 @@ namespace NHSE.Core
             RecipeList.Recipes.ToDictionary(z => z.Value, z => z.Key);
 
         // Users can put spaces between item codes, or newlines. Recognize both!
-        private static readonly string[] SplittersHex = {" ", "\n", "\r\n"};
-        private static readonly string[] SplittersName = {",", "\n", "\r\n"};
+        private static readonly string[] SplittersHex = { " ", "\n", "\r\n" };
+        private static readonly string[] SplittersName = { ",", "\n", "\r\n" };
 
         /// <summary>
         /// Gets a list of items from the requested hex string(s).
@@ -197,7 +197,12 @@ namespace NHSE.Core
         {
             var item = GetItem(name, lang);
             if (item.IsNone)
-                throw new Exception($"Failed to convert item (index {requestIndex}: {name}) for Language {lang}.");
+            {
+                // Enhanced logging
+                var errorMessage = $"Failed to convert item (index {requestIndex}: {name}) for Language {lang}.";
+                Console.WriteLine(errorMessage);  // Log the error
+                throw new Exception(errorMessage);
+            }
 
             return FinalizeItem(requestIndex, config, type, item);
         }
